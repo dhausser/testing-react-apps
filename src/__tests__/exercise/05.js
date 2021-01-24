@@ -31,8 +31,18 @@ test(`logging in displays the user's username`, async () => {
 
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
 
-  // once the login is successful, then the loading spinner disappears and
-  // we render the username.
-  // 🐨 assert that the username is on the screen
   expect(screen.getByText(username)).toBeInTheDocument()
+})
+
+test('omitting the password results in an error', async () => {
+  render(<Login />)
+  const {username} = buildLoginForm()
+
+  userEvent.type(screen.getByLabelText(/username/i), username)
+  // not going to fill the password
+  userEvent.click(screen.getByRole('button', {name: /submit/i}))
+
+  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+
+  expect(screen.getByRole('alert')).toHaveTextContent('password required')
 })
