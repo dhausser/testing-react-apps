@@ -12,7 +12,6 @@ test('exposes the count and increment/decrement functions', () => {
     return null
   }
   render(<TestComponent />)
-  console.log(result)
   expect(result.count).toBe(0)
   act(() => result.increment())
   expect(result.count).toBe(1)
